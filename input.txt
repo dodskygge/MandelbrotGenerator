@@ -1,0 +1,28 @@
+# Generator settings (MandelbrotFast.cs)
+# Format: key = value. Everything after '#' is a comment. Decimals with a dot or a comma.
+
+# Image size in pixels
+width  = 12000
+height = 12000
+
+# Maximum number of iterations z_(n+1) = z_n^2 + c per pixel.
+# More = more detail near the edge of the set, but longer computation.
+maxN = 2000
+
+# Region of the complex plane to render:
+# X axis (real part of c) from minR to maxR
+minR = -0.9978
+maxR = -0.991
+# Y axis (imaginary part of c) from minI to maxI
+minI = -0.297
+maxI = -0.2919
+# Keep (maxR-minR)/(maxI-minI) equal to width/height, otherwise the image is stretched.
+
+# Output file. The format is chosen by the extension: .png (small, opens anywhere) or .ppm (plain text, very large).
+# If the file already exists, the image is saved as <name>_new.png / <name>_new.ppm
+file = fractal.png
+
+# Interesting regions (copy the values above):
+#   minR = -0.9978  maxR = -0.991   minI = -0.297  maxI = -0.2919
+#   minR = -1.395   maxR = -1.385   minI = -0.017  maxI = -0.009
+#   whole set: minR = -2.5  maxR = 1  minI = -1.75  maxI = 1.75

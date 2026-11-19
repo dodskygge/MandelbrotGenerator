@@ -1,0 +1,31 @@
+# Pushing a v* tag (e.g. v1.0.0) builds the program and publishes it as a GitHub Release.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: |
+          for rid in win-x64 linux-x64 osx-arm64; do
+            dotnet publish MandelbrotGenerator.csproj -c Release -r $rid --self-contained -p:PublishSingleFile=true -o out/$rid
+            rm -f out/$rid/*.pdb
+            (cd out/$rid && zip -r ../../MandelbrotGenerator-$rid.zip .)
+          done
+
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" MandelbrotGenerator-*.zip --generate-notes
